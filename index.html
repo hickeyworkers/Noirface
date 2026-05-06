@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Noir Face | Black & Gold</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #030303;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Poppins', 'Consolas', monospace;
+            position: relative;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ТЁМНЫЙ ФОН С ЛЁГКИМ ЗОЛОТЫМ ОТЛИВОМ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, #0a0a0a, #000000);
+            z-index: -2;
+            animation: bgShift 12s ease infinite;
+        }
+        @keyframes bgShift {
+            0% { opacity: 0.9; }
+            50% { opacity: 1; background: radial-gradient(circle at 70% 80%, #111111, #000000); }
+            100% { opacity: 0.9; }
+        }
+
+        /* ЗОЛОТЫЕ ЧАСТИЦЫ (ОЧЕНЬ МЯГКО) */
+        #gold-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* ОСНОВНАЯ КАРТОЧКА — ПЛАВНОЕ ПОЯВЛЕНИЕ */
+        .gold-card {
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            padding: 32px 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        @keyframes cardAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .gold-card:hover {
+            border-color: rgba(255, 215, 0, 0.45);
+            transition: all 0.4s ease;
+        }
+
+        /* АВАТАР — ЧЁРНЫЙ С ЗОЛОТЫМИ КОЛЬЦАМИ */
+        .avatar-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            animation: fadeScale 0.6s ease 0.2s both;
+        }
+        @keyframes fadeScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .gold-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #000;
+            padding: 3px;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        .gold-ring canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: block;
+        }
+        @keyframes ringPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,215,0,0.2); }
+            50% { box-shadow: 0 0 0 6px rgba(255,215,0,0.1); }
+            100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.2); }
+        }
+
+        /* ИМЯ */
+        .name-section {
+            text-align: center;
+            margin-bottom: 16px;
+            animation: fadeSlide 0.6s ease 0.3s both;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e8e8e8, #ffd700, #c0c0c0);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleShine 4s linear infinite;
+            letter-spacing: 1px;
+        }
+        @keyframes titleShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 40px;
+            padding: 5px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #cca300;
+            letter-spacing: 1px;
+            margin-top: 6px;
+            animation: loadingPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes loadingPulse {
+            0% { opacity: 0.6; text-shadow: 0 0 0 #cca300; }
+            50% { opacity: 1; text-shadow: 0 0 4px #cca300; }
+            100% { opacity: 0.6; text-shadow: 0 0 0 #cca300; }
+        }
+
+        /* IP-ПАНЕЛЬ */
+        .info-panel {
+            background: rgba(0,0,0,0.7);
+            border-radius: 28px;
+            padding: 14px 18px;
+            margin-bottom: 28px;
+            border-left: 3px solid #cca300;
+            animation: fadeSlide 0.6s ease 0.4s both;
+        }
+        .ip-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-family: monospace;
+            color: #bbb;
+            padding: 5px 0;
+        }
+        .ip-label {
+            color: #cca300;
+            font-weight: bold;
+        }
+        .ip-value {
+            color: #d4d4d4;
+        }
+
+        /* ПЛАВАЮЩИЕ ИКОНКИ В УГЛУ */
+        .social-corner {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 20;
+            animation: fadeUp 0.6s ease 0.5s both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .wrapper {
+            display: inline-flex;
+            list-style: none;
+            gap: 12px;
+            background: rgba(8,8,8,0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 16px;
+            border-radius: 60px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        .wrapper .icon {
+            position: relative;
+            background: #0f0f0f;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            color: #cca300;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .wrapper .tooltip {
+            position: absolute;
+            top: -40px;
+            font-size: 11px;
+            background: #111;
+            color: #cca300;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+        }
+        .wrapper .icon:hover {
+            transform: translateY(-4px);
+            background: #1f1f1f;
+            color: #ffd700;
+            box-shadow: 0 0 12px rgba(255,215,0,0.3);
+            border-color: #ffd700;
+        }
+        .wrapper .icon.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .wrapper .icon.disabled:hover {
+            transform: none;
+            background: #0f0f0f;
+            box-shadow: none;
+        }
+        .cross-mark {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #aa2e2e;
+            color: white;
+            font-size: 9px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        /* ФУТЕР */
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 9px;
+            color: #5a4e2a;
+            border-top: 1px solid rgba(255,215,0,0.1);
+            padding-top: 16px;
+            animation: fadeSlide 0.6s ease 0.5s both;
+        }
+
+        @media (max-width: 550px) {
+            .gold-card { padding: 24px 18px; }
+            h1 { font-size: 26px; }
+            .gold-ring { width: 95px; height: 95px; }
+            .wrapper { padding: 8px 14px; gap: 8px; }
+            .wrapper .icon { width: 40px; height: 40px; font-size: 18px; }
+            .social-corner { bottom: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="gold-particles"></canvas>
+
+    <div class="gold-card">
+        <div class="avatar-wrapper">
+            <div class="gold-ring">
+                <canvas id="avatarCanvas" width="200" height="200" style="width:100%; height:100%; border-radius: 50%;"></canvas>
+            </div>
+        </div>
+
+        <div class="name-section">
+            <h1>Noir Face</h1>
+            <div class="tag">[ LOADING SYSTEM... ]</div>
+        </div>
+
+        <div class="info-panel">
+            <div class="ip-row">
+                <span class="ip-label"><i class="fas fa-network-wired"></i> IPv4</span>
+                <span class="ip-value" id="userIp">--.--.--.--</span>
+            </div>
+            <div class="ip-row">
+                <span class="ip-label"><i class="fas fa-map-marker-alt"></i> LOCATION</span>
+                <span class="ip-value" id="userLocation">fetching...</span>
+            </div>
+            <div class="ip-row">
+                <span class="ip-label"><i class="fas fa-building"></i> ISP</span>
+                <span class="ip-value" id="userIsp">--</span>
+            </div>
+            <div class="ip-row">
+                <span class="ip-label"><i class="fas fa-fingerprint"></i> SECURE FP</span>
+                <span class="ip-value" id="browserFp">encrypted</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="fas fa-crown" style="color:#cca300;"></i> private session · black & gold
+        </div>
+    </div>
+
+    <div class="social-corner">
+        <ul class="wrapper">
+            <li class="icon telegram" id="tgIcon">
+                <span class="tooltip">Telegram</span>
+                <i class="fab fa-telegram-plane"></i>
+            </li>
+            <li class="icon instagram disabled">
+                <span class="tooltip">Instagram</span>
+                <i class="fab fa-instagram"></i>
+                <div class="cross-mark">✕</div>
+            </li>
+            <li class="icon twitter disabled">
+                <span class="tooltip">Twitter</span>
+                <i class="fab fa-twitter"></i>
+                <div class="cross-mark">✕</div>
+            </li>
+            <li class="icon github disabled">
+                <span class="tooltip">GitHub</span>
+                <i class="fab fa-github"></i>
+                <div class="cross-mark">✕</div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        // ========== ЧЁРНО-ЗОЛОТАЯ АВАТАРКА ==========
+        function drawBlackGoldAvatar() {
+            const canvas = document.getElementById('avatarCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const size = 200;
+            canvas.width = size;
+            canvas.height = size;
+            
+            ctx.fillStyle = '#050505';
+            ctx.fillRect(0, 0, size, size);
+            
+            const cx = size/2;
+            const cy = size/2;
+            
+            // Золотые кольца (тонкие, акцентные)
+            const rings = [82, 68, 54, 40, 26];
+            for (let i = 0; i < rings.length; i++) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, rings[i], 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(255, 215, 0, ${0.5 - i * 0.08})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Тонкие спицы (золотые)
+            for (let ang = 0; ang < 360; ang += 30) {
+                const rad = ang * Math.PI / 180;
+                const x1 = cx + 18 * Math.cos(rad);
+                const y1 = cy + 18 * Math.sin(rad);
+                const x2 = cx + 82 * Math.cos(rad);
+                const y2 = cy + 82 * Math.sin(rad);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = 'rgba(255, 215, 0, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            
+            // Буква N (золотая)
+            ctx.font = `bold 48px 'Segoe UI', 'Consolas', monospace`;
+            ctx.fillStyle = '#cca300';
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = '#cca300';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("N", cx, cy + 4);
+            ctx.shadowBlur = 0;
+        }
+        drawBlackGoldAvatar();
+
+        // ========== IP / ГЕО ==========
+        async function fetchGeo() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                if (data.ip) {
+                    document.getElementById('userIp').innerText = data.ip;
+                    document.getElementById('userLocation').innerText = `${data.city || 'unknown'}, ${data.country_name || ''}`;
+                    document.getElementById('userIsp').innerText = data.org || 'unknown';
+                } else {
+                    fallback();
+                }
+            } catch(e) { fallback(); }
+        }
+        function fallback() {
+            document.getElementById('userIp').innerText = '185.191.126.215';
+            document.getElementById('userLocation').innerText = 'Amsterdam, NL';
+            document.getElementById('userIsp').innerText = 'black-dc / secure';
+        }
+        function setFingerprint() {
+            const ua = navigator.userAgent;
+            const fp = btoa(ua.slice(0, 20) + screen.width + screen.height).substring(0, 14);
+            document.getElementById('browserFp').innerText = fp + '...[locked]';
+        }
+        fetchGeo();
+        setFingerprint();
+
+        // ========== TELEGRAM ==========
+        const tgIcon = document.getElementById('tgIcon');
+        tgIcon.addEventListener('click', () => {
+            window.location.href = 'tg://user?id=1013009081';
+            setTimeout(() => window.open('https://t.me/centrie', '_blank'), 200);
+        });
+
+        // ========== ЗОЛОТЫЕ ЧАСТИЦЫ (МЯГКИЕ) ==========
+        const canvasPart = document.getElementById('gold-particles');
+        const ctxPart = canvasPart.getContext('2d');
+        let w = window.innerWidth, h = window.innerHeight;
+        let particles = [];
+        class SoftParticle {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.r = Math.random() * 2.2 + 0.6;
+                this.vx = (Math.random() - 0.5) * 0.15;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0) this.x = w;
+                if (this.x > w) this.x = 0;
+                if (this.y < 0) this.y = h;
+                if (this.y > h) this.y = 0;
+            }
+            draw() {
+                ctxPart.fillStyle = `rgba(255, 215, 0, ${Math.random() * 0.15 + 0.05})`;
+                ctxPart.beginPath();
+                ctxPart.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctxPart.fill();
+            }
+        }
+        function initParts(n) { for(let i=0;i<n;i++) particles.push(new SoftParticle()); }
+        function animateParts() {
+            if(!ctxPart) return;
+            ctxPart.clearRect(0, 0, w, h);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParts);
+        }
+        function resizeParts() { w = innerWidth; h = innerHeight; canvasPart.width = w; canvasPart.height = h; particles = []; initParts(90); }
+        window.addEventListener('resize', resizeParts);
+        resizeParts();
+        animateParts();
+    </script>
+</body>
+</html>
